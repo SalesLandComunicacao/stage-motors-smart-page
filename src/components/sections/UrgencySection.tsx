@@ -108,7 +108,7 @@ export function UrgencySection({ onCtaClick }: UrgencySectionProps) {
         <div className="mt-12">
           <button
             onClick={onCtaClick}
-            className="group/cta inline-flex h-16 cursor-pointer items-center gap-3 rounded-lg bg-stage-red px-10 text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:bg-stage-red-hover cta-glow"
+            className="group/cta inline-flex h-16 cursor-pointer items-center gap-3 rounded-lg bg-zinc-300 px-10 text-lg font-semibold tracking-wide text-zinc-900 transition-all duration-300 hover:bg-zinc-200 cta-glow"
           >
             QUERO VENDER MEU VEÍCULO
             <svg

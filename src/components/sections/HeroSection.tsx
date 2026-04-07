@@ -42,7 +42,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         {/* CTA */}
         <button
           onClick={onCtaClick}
-          className="group/cta mt-10 flex h-16 cursor-pointer items-center gap-3 rounded-lg bg-stage-red px-10 text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:bg-stage-red-hover cta-glow"
+          className="group/cta mt-10 flex h-16 cursor-pointer items-center gap-3 rounded-lg bg-zinc-300 px-10 text-lg font-semibold tracking-wide text-zinc-900 transition-all duration-300 hover:bg-zinc-200 cta-glow"
         >
           QUERO VENDER MEU VEÍCULO
           <svg

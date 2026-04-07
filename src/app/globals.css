@@ -101,12 +101,25 @@
 
 /* Glow effect for CTA buttons */
 .cta-glow {
-  box-shadow: 0 0 20px oklch(0.577 0.245 27.325 / 30%),
-              0 0 60px oklch(0.577 0.245 27.325 / 10%);
+  box-shadow: 0 0 20px oklch(0.85 0 0 / 20%),
+              0 0 60px oklch(0.85 0 0 / 8%);
+  animation: cta-pulse 2s ease-in-out infinite;
 }
 .cta-glow:hover {
-  box-shadow: 0 0 30px oklch(0.577 0.245 27.325 / 50%),
-              0 0 80px oklch(0.577 0.245 27.325 / 20%);
+  box-shadow: 0 0 30px oklch(0.85 0 0 / 40%),
+              0 0 80px oklch(0.85 0 0 / 15%);
+  animation: none;
+}
+
+@keyframes cta-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px oklch(0.85 0 0 / 20%),
+                0 0 60px oklch(0.85 0 0 / 8%);
+  }
+  50% {
+    box-shadow: 0 0 30px oklch(0.85 0 0 / 35%),
+                0 0 80px oklch(0.85 0 0 / 15%);
+  }
 }
 
 /* Diagonal line pattern */

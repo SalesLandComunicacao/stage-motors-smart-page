@@ -202,7 +202,7 @@ export function VehicleForm({ open, onOpenChange }: VehicleFormProps) {
             </div>
             <Button
               onClick={handleClose}
-              className="mt-8 h-12 cursor-pointer rounded-lg bg-stage-red px-8 font-semibold text-white hover:bg-stage-red-hover"
+              className="mt-8 h-12 cursor-pointer rounded-lg bg-zinc-300 px-8 font-semibold text-zinc-900 hover:bg-zinc-200"
             >
               ENTENDIDO
             </Button>
@@ -452,7 +452,7 @@ export function VehicleForm({ open, onOpenChange }: VehicleFormProps) {
           <Button
             type="submit"
             disabled={submitting}
-            className="h-14 w-full cursor-pointer rounded-lg bg-stage-red text-base font-semibold tracking-wide text-white transition-all hover:bg-stage-red-hover cta-glow disabled:opacity-60"
+            className="h-14 w-full cursor-pointer rounded-lg bg-zinc-300 text-base font-semibold tracking-wide text-zinc-900 transition-all hover:bg-zinc-200 cta-glow disabled:opacity-60"
           >
             {submitting ? (
               <>

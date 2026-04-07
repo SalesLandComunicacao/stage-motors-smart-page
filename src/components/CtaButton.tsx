@@ -12,7 +12,7 @@ export function CtaButton({ onClick, className = "" }: CtaButtonProps) {
   return (
     <Button
       onClick={onClick}
-      className={`group/cta h-14 cursor-pointer rounded-lg bg-stage-red px-8 text-base font-semibold tracking-wide text-white transition-all duration-300 hover:bg-stage-red-hover cta-glow ${className}`}
+      className={`group/cta h-14 cursor-pointer rounded-lg bg-zinc-300 px-8 text-base font-semibold tracking-wide text-zinc-900 transition-all duration-300 hover:bg-zinc-200 cta-glow ${className}`}
       size="lg"
     >
       QUERO VENDER MEU VEÍCULO
