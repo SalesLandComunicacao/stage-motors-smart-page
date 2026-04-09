@@ -158,13 +158,38 @@ export function VehicleForm({ open, onOpenChange }: VehicleFormProps) {
   const onSubmit = useCallback(
     async (data: FormData) => {
       setSubmitting(true);
-      // Simulate submission — replace with real API/Supabase later
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Form submitted:", data);
-      setSubmitting(false);
-      setSuccess(true);
+      
+      try {
+        const marca = brands.find(b => b.codigo === data.marcaCodigo)?.nome || data.marcaCodigo;
+        const modelo = models.find(m => String(m.codigo) === data.modeloCodigo)?.nome || data.modeloCodigo;
+        const ano = years.find(y => y.codigo === data.anoCodigo)?.nome || data.anoCodigo;
+
+        const payload = {
+          ...data,
+          marca_nome: marca,
+          modelo_nome: modelo,
+          ano_nome: ano,
+          valor_fipe: fipePrice,
+          origem: "Stage Motors Formulario"
+        };
+
+        await fetch("https://webhook.salesland.com.br/webhook/edda860e-5fce-463a-91e4-1267cf522833", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        console.log("Form submitted to webhook:", payload);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        setSubmitting(false);
+        setSuccess(true);
+      }
     },
-    []
+    [brands, models, years, fipePrice]
   );
 
   const handleClose = useCallback(() => {
