@@ -32,19 +32,19 @@ export function UrgencySection({ onCtaClick }: UrgencySectionProps) {
 
         {/* Social proof stats */}
         <div className="mx-auto mt-12 grid max-w-lg gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-white/5 bg-card px-6 py-5">
+          <div className="rounded-xl border border-white/5 bg-card/75 backdrop-blur-sm px-6 py-5">
             <p className="font-display text-3xl text-stage-red">500+</p>
             <p className="mt-1 text-sm text-muted-foreground">
               Veículos negociados
             </p>
           </div>
-          <div className="rounded-xl border border-white/5 bg-card px-6 py-5">
+          <div className="rounded-xl border border-white/5 bg-card/75 backdrop-blur-sm px-6 py-5">
             <p className="font-display text-3xl text-white">2h</p>
             <p className="mt-1 text-sm text-muted-foreground">
               Tempo de resposta
             </p>
           </div>
-          <div className="rounded-xl border border-white/5 bg-card px-6 py-5">
+          <div className="rounded-xl border border-white/5 bg-card/75 backdrop-blur-sm px-6 py-5">
             <p className="font-display text-3xl text-white">98%</p>
             <p className="mt-1 text-sm text-muted-foreground">
               Clientes satisfeitos
@@ -70,7 +70,7 @@ export function UrgencySection({ onCtaClick }: UrgencySectionProps) {
               Carlos M. — Fortaleza/CE
             </p>
           </div>
-          <div className="rounded-xl border border-white/5 bg-card p-6 text-left">
+          <div className="rounded-xl border border-white/5 bg-card/75 backdrop-blur-sm p-6 text-left">
             <div className="flex gap-1 text-stage-red">
               {Array.from({ length: 5 }).map((_, i) => (
                 <svg key={i} className="size-4 fill-current" viewBox="0 0 20 20">
@@ -92,7 +92,7 @@ export function UrgencySection({ onCtaClick }: UrgencySectionProps) {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <CheckCircle className="size-4 text-stage-red" />
-            <span>Referência Tabela FIPE</span>
+            <span>Avaliação Justa</span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="size-4 text-stage-red" />

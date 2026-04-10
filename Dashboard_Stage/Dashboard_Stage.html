@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Stage Motors</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a0008 50%, #2d0010 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(225,29,72,0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+        .header p { color: rgba(255,255,255,0.6); font-size: 14px; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(225,29,72,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { border-color: rgba(225,29,72,0.5); transform: translateY(-2px); }
+        .stat-card h3 { color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .stat-card p { font-size: 28px; font-weight: 700; color: #e11d48; }
+
+        .filters {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(225,29,72,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .filters h2 { font-size: 16px; margin-bottom: 16px; color: #e11d48; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .filter-group { display: flex; flex-direction: column; gap: 6px; }
+        .filter-group label { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 600; }
+
+        input, select {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(225,29,72,0.3);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus { outline: none; border-color: #e11d48; background: rgba(0,0,0,0.5); }
+        input::placeholder { color: rgba(255,255,255,0.35); }
+        select option { background: #1a1a1a; }
+
+        button {
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(225,29,72,0.35); }
+        .btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid rgba(225,29,72,0.3); }
+        .btn-secondary:hover { box-shadow: none; background: rgba(255,255,255,0.12); }
+
+        .table-container {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(225,29,72,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            background: rgba(225,29,72,0.12);
+            color: #e11d48;
+            font-weight: 700;
+            text-align: left;
+            padding: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(225,29,72,0.3);
+        }
+        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 14px; vertical-align: middle; }
+        tr:hover { background: rgba(225,29,72,0.05); }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 7px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-btn:hover { background: #20BA5A; transform: scale(1.05); }
+
+        .btn-del {
+            background: transparent;
+            border: 1px solid rgba(225,29,72,0.4);
+            color: #e11d48;
+            padding: 7px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.2s;
+            margin-left: 6px;
+        }
+        .btn-del:hover { background: rgba(225,29,72,0.15); border-color: #e11d48; transform: none; box-shadow: none; }
+
+        .loading { text-align: center; padding: 40px; color: rgba(255,255,255,0.5); }
+        .spinner {
+            display: inline-block;
+            width: 28px; height: 28px;
+            border: 3px solid rgba(225,29,72,0.3);
+            border-top-color: #e11d48;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-msg {
+            background: rgba(225,29,72,0.1);
+            border: 1px solid rgba(225,29,72,0.4);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #fca5a5;
+            font-size: 14px;
+        }
+        .empty-state { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.4); }
+        .empty-state h3 { font-size: 20px; margin-bottom: 8px; }
+
+        .td-fipe { color: #e11d48; font-weight: 700; }
+        .td-name { font-weight: 600; }
+        .td-date { color: rgba(255,255,255,0.55); font-size: 12px; white-space: nowrap; }
+
+        /* Confirm modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+            z-index: 100; align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #1a1a1a;
+            border: 1px solid rgba(225,29,72,0.4);
+            border-radius: 14px; padding: 32px;
+            max-width: 380px; width: 90%; text-align: center;
+        }
+        .modal h3 { font-size: 1.1rem; margin-bottom: 8px; }
+        .modal p { color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 24px; }
+        .modal-btns { display: flex; gap: 10px; justify-content: center; }
+        .modal-cancel { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; border-radius: 8px; padding: 10px 22px; font-size: 14px; cursor: pointer; }
+        .modal-confirm { background: #e11d48; border: none; color: #fff; border-radius: 8px; padding: 10px 22px; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+        #toast {
+            position: fixed; bottom: 24px; right: 24px;
+            background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; padding: 12px 20px; border-radius: 10px;
+            font-size: 13px; z-index: 200;
+            transform: translateY(80px); opacity: 0; transition: all .3s;
+        }
+        #toast.show { transform: translateY(0); opacity: 1; }
+        #toast.success { border-color: #22c55e; }
+        #toast.error { border-color: #e11d48; }
+
+        @media (max-width: 768px) { table { min-width: 900px; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Dashboard Stage Motors</h1>
+    <p>Gerenciamento de Leads de Avaliação de Veículos</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>Total de Leads</h3>
+        <p id="stat-total">0</p>
+    </div>
+    <div class="stat-card">
+        <h3>Hoje</h3>
+        <p id="stat-hoje">0</p>
+    </div>
+    <div class="stat-card">
+        <h3>Com Valor FIPE</h3>
+        <p id="stat-fipe">0</p>
+    </div>
+    <div class="stat-card">
+        <h3>Esta Semana</h3>
+        <p id="stat-semana">0</p>
+    </div>
+</div>
+
+<div class="filters">
+    <h2>Filtros</h2>
+    <div class="filters-grid">
+        <div class="filter-group">
+            <label>Buscar por nome</label>
+            <input type="text" id="f-nome" placeholder="Digite o nome...">
+        </div>
+        <div class="filter-group">
+            <label>Marca</label>
+            <input type="text" id="f-marca" placeholder="Ex: Chevrolet...">
+        </div>
+        <div class="filter-group">
+            <label>Modelo</label>
+            <input type="text" id="f-modelo" placeholder="Ex: Onix...">
+        </div>
+        <div class="filter-group">
+            <label>Ano</label>
+            <input type="text" id="f-ano" placeholder="Ex: 2022...">
+        </div>
+        <div class="filter-group">
+            <label>Tem Valor FIPE?</label>
+            <select id="f-fipe">
+                <option value="">Todos</option>
+                <option value="sim">Com FIPE</option>
+                <option value="nao">Sem FIPE</option>
+            </select>
+        </div>
+    </div>
+    <div style="display:flex; gap:12px;">
+        <button onclick="applyFilters()">Aplicar Filtros</button>
+        <button class="btn-secondary" onclick="clearFilters()">Limpar Filtros</button>
+    </div>
+</div>
+
+<div id="error-container"></div>
+
+<div class="table-container">
+    <div id="loading-state" class="loading">
+        <div class="spinner"></div>
+        <p>Carregando leads...</p>
+    </div>
+    <table id="leads-table" style="display:none;">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>WhatsApp</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Ano</th>
+                <th>Versão</th>
+                <th>KM</th>
+                <th>Tabela FIPE</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="leads-body"></tbody>
+    </table>
+    <div id="empty-state" class="empty-state" style="display:none;">
+        <h3>Nenhum lead encontrado</h3>
+        <p>Ajuste os filtros ou aguarde novas avaliações</p>
+    </div>
+</div>
+
+<!-- Delete modal -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <h3>Excluir Lead?</h3>
+        <p id="modal-desc">Esta ação não pode ser desfeita.</p>
+        <div class="modal-btns">
+            <button class="modal-cancel" onclick="closeModal()">Cancelar</button>
+            <button class="modal-confirm" id="modal-confirm-btn">Excluir</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // ── CONFIGURAÇÃO ────────────────────────────────────────────
+    const SUPABASE_URL = 'https://abmayitkvsmiimdqwfdi.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFibWF5aXRrdnNtaWltZHF3ZmRpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTc1NTI3NSwiZXhwIjoyMDkxMzMxMjc1fQ.hi7AIbgbnUhXMQyISqTCwXvN-E7PhwTtOCabdTCreNs';
+    // ────────────────────────────────────────────────────────────
+
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let allLeads = [];
+    let filteredLeads = [];
+    let deletingId = null;
+
+    async function loadLeads() {
+        document.getElementById('loading-state').style.display = 'block';
+        document.getElementById('leads-table').style.display = 'none';
+        document.getElementById('empty-state').style.display = 'none';
+
+        const { data, error } = await db
+            .from('leads_veiculos')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        document.getElementById('loading-state').style.display = 'none';
+
+        if (error) {
+            showError('Erro ao carregar dados: ' + error.message);
+            return;
+        }
+
+        allLeads = data || [];
+        filteredLeads = [...allLeads];
+        updateStats();
+        renderTable();
+    }
+
+    function updateStats() {
+        const hoje = new Date().toISOString().slice(0, 10);
+        const semanaAtras = new Date(Date.now() - 7 * 86400000).toISOString();
+        document.getElementById('stat-total').textContent = filteredLeads.length;
+        document.getElementById('stat-hoje').textContent = filteredLeads.filter(l => l.created_at?.startsWith(hoje)).length;
+        document.getElementById('stat-fipe').textContent = filteredLeads.filter(l => l.valor_fipe).length;
+        document.getElementById('stat-semana').textContent = filteredLeads.filter(l => l.created_at >= semanaAtras).length;
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('leads-body');
+        const table = document.getElementById('leads-table');
+        const empty = document.getElementById('empty-state');
+
+        if (filteredLeads.length === 0) {
+            table.style.display = 'none';
+            empty.style.display = 'block';
+            return;
+        }
+
+        table.style.display = 'table';
+        empty.style.display = 'none';
+
+        tbody.innerHTML = filteredLeads.map((lead, index) => {
+            const date = lead.created_at
+                ? new Date(lead.created_at).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
+                : '—';
+            const phone = (lead.whatsapp || '').replace(/\D/g, '');
+            const waLink = `https://wa.me/55${phone}`;
+
+            return `
+                <tr id="row-${index}">
+                    <td class="td-date">${date}</td>
+                    <td class="td-name">${esc(lead.nome || '—')}</td>
+                    <td style="font-family:monospace;">${esc(lead.whatsapp || '—')}</td>
+                    <td>${esc(lead.marca_nome || '—')}</td>
+                    <td>${esc(lead.modelo_nome || '—')}</td>
+                    <td>${esc(lead.ano_nome || '—')}</td>
+                    <td style="color:rgba(255,255,255,0.55)">${esc(lead.versao || '—')}</td>
+                    <td style="color:rgba(255,255,255,0.55)">${esc(lead.quilometragem || '—')} km</td>
+                    <td class="td-fipe">${esc(lead.valor_fipe || '—')}</td>
+                    <td style="white-space:nowrap;">
+                        <a href="${waLink}" target="_blank" class="whatsapp-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            WhatsApp
+                        </a>
+                        <button class="btn-del" onclick="askDelete(${index})">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function applyFilters() {
+        const nome  = document.getElementById('f-nome').value.toLowerCase();
+        const marca = document.getElementById('f-marca').value.toLowerCase();
+        const modelo = document.getElementById('f-modelo').value.toLowerCase();
+        const ano   = document.getElementById('f-ano').value.toLowerCase();
+        const fipe  = document.getElementById('f-fipe').value;
+
+        filteredLeads = allLeads.filter(l => {
+            if (nome  && !(l.nome  || '').toLowerCase().includes(nome))  return false;
+            if (marca && !(l.marca_nome || '').toLowerCase().includes(marca)) return false;
+            if (modelo && !(l.modelo_nome || '').toLowerCase().includes(modelo)) return false;
+            if (ano   && !(l.ano_nome || '').toLowerCase().includes(ano))   return false;
+            if (fipe === 'sim' && !l.valor_fipe) return false;
+            if (fipe === 'nao' && l.valor_fipe)  return false;
+            return true;
+        });
+
+        updateStats();
+        renderTable();
+    }
+
+    function clearFilters() {
+        ['f-nome','f-marca','f-modelo','f-ano'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('f-fipe').value = '';
+        filteredLeads = [...allLeads];
+        updateStats();
+        renderTable();
+    }
+
+    // ── DELETE ───────────────────────────────────────────────
+    function askDelete(index) {
+        deletingId = index;
+        const lead = filteredLeads[index];
+        document.getElementById('modal-desc').textContent = `Excluir o lead de "${esc(lead.nome || '')}"? Esta ação não pode ser desfeita.`;
+        document.getElementById('modal-confirm-btn').onclick = confirmDelete;
+        document.getElementById('modal').classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('show');
+        deletingId = null;
+    }
+
+    async function confirmDelete() {
+        if (deletingId === null) return;
+        
+        const idToDel = deletingId;
+        closeModal();
+
+        const lead = filteredLeads[idToDel];
+        let query = db.from('leads_veiculos').delete();
+
+        if (lead.id && lead.id !== 'null') {
+            query = query.eq('id', lead.id);
+        } else {
+            query = query.eq('created_at', lead.created_at).eq('whatsapp', lead.whatsapp);
+        }
+
+        const { error } = await query;
+
+        if (error) {
+            showToast('Erro ao excluir lead.', 'error');
+            return;
+        }
+
+        allLeads = allLeads.filter(l => l !== lead);
+        filteredLeads = filteredLeads.filter(l => l !== lead);
+
+        const row = document.getElementById(`row-${idToDel}`);
+        if (row) {
+            row.style.transition = 'opacity 0.3s, transform 0.3s';
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(20px)';
+            setTimeout(() => {
+                renderTable();
+            }, 300);
+        } else {
+            renderTable();
+        }
+
+        updateStats();
+        showToast('Lead excluído com sucesso.', 'success');
+    }
+
+    // ── HELPERS ──────────────────────────────────────────────
+    function esc(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    let toastTimer;
+    function showToast(msg, type = '') {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'show ' + type;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.className = '', 3000);
+    }
+
+    function showError(msg) {
+        document.getElementById('error-container').innerHTML = `<div class="error-msg">${msg}</div>`;
+    }
+
+    // Filtrar ao digitar
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', applyFilters);
+    });
+
+    // Fechar modal clicando fora
+    document.getElementById('modal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeModal();
+    });
+
+    // Carregar e atualizar a cada 30s
+    loadLeads();
+    setInterval(loadLeads, 30000);
+</script>
+</body>
+</html>

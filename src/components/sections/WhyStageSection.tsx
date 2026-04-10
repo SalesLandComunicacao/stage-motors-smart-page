@@ -9,7 +9,7 @@ const differentials = [
     icon: Scale,
     title: "Avaliação Transparente",
     description:
-      "Usamos a Tabela FIPE como referência. Sem surpresas, sem valores abaixo do mercado.",
+      "Avaliamos seu veículo de forma realista e responsável. Seu carro recebe uma proposta justa, sem desvalorizações agressivas absurdas que o mercado aplica.",
   },
   {
     icon: Zap,
@@ -55,7 +55,7 @@ export function WhyStageSection({ onCtaClick }: WhyStageSectionProps) {
           {differentials.map((item) => (
             <div
               key={item.title}
-              className="group relative overflow-hidden rounded-xl border border-white/5 bg-card p-8 transition-all duration-300 hover:border-stage-red/20"
+              className="group relative overflow-hidden rounded-xl border border-white/5 bg-card/75 backdrop-blur-md p-8 transition-all duration-300 hover:border-stage-red/20"
             >
               {/* Decorative corner */}
               <div className="absolute -right-8 -top-8 size-24 rounded-full bg-stage-red/5 transition-all duration-500 group-hover:scale-150 group-hover:bg-stage-red/8" />

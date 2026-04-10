@@ -416,20 +416,7 @@ export function VehicleForm({ open, onOpenChange }: VehicleFormProps) {
               )}
             </div>
 
-            {/* FIPE Price indicator */}
-            {fipePrice && (
-              <div className="rounded-lg border border-stage-red/20 bg-stage-red/5 p-4">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Valor Tabela FIPE
-                </p>
-                <p className="mt-1 font-display text-2xl text-stage-red">
-                  {fipePrice}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Referência para avaliação do seu veículo
-                </p>
-              </div>
-            )}
+
 
             {/* Version */}
             <div>

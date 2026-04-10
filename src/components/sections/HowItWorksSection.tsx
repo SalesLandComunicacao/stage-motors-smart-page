@@ -17,7 +17,7 @@ const steps = [
     number: "02",
     title: "Receba a avaliação",
     description:
-      "Nossa equipe analisa as informações e envia uma proposta justa baseada na Tabela FIPE.",
+      "Nossa equipe analisa as informações e envia uma proposta de avaliação justa e realista para o seu veículo.",
   },
   {
     icon: Banknote,
@@ -49,7 +49,7 @@ export function HowItWorksSection({ onCtaClick }: HowItWorksSectionProps) {
           {steps.map((step) => (
             <div
               key={step.number}
-              className="group relative rounded-xl border border-white/5 bg-card p-8 transition-all duration-300 hover:border-stage-red/20 hover:bg-white/[0.03]"
+              className="group relative rounded-xl border border-white/5 bg-card/75 backdrop-blur-md p-8 transition-all duration-300 hover:border-stage-red/20 hover:bg-white/[0.03]"
             >
               {/* Step number */}
               <span className="font-display text-5xl text-white/5 transition-colors duration-300 group-hover:text-stage-red/10">

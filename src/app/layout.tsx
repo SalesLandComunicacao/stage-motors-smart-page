@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Venda seu Veículo | Stage Motors",
     description:
-      "Transforme seu carro em dinheiro. Avaliação justa baseada na Tabela FIPE.",
+      "Transforme seu carro em dinheiro. Avaliação justa e rápida do seu veículo sem enrolação.",
     type: "website",
     url: "https://stage.salesland.com.br",
   },
